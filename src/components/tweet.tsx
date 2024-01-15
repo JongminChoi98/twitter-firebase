@@ -88,9 +88,22 @@ const DeletePhoto = styled.button`
   }
 `;
 
+const Row = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 10px;
+`;
+
+const UserAvatar = styled.img`
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+`;
+
 export default function Tweet({ userId, username, photo, tweet, id }: ITweet) {
-  const [isEditing, setIsEditing] = useState(false);
   const user = auth.currentUser;
+  const avatar = user?.photoURL;
+  const [isEditing, setIsEditing] = useState(false);
   const onDelete = async () => {
     const ok = confirm("Are you sure you want to delete this tweet?");
     if (!ok || user?.uid !== userId) return;
@@ -119,7 +132,22 @@ export default function Tweet({ userId, username, photo, tweet, id }: ITweet) {
   return (
     <Wrapper>
       <Column>
-        <Username>{username}</Username>
+        <Row>
+          {avatar ? (
+            <UserAvatar src={avatar} />
+          ) : (
+            <svg
+              fill="currentColor"
+              viewBox="0 0 20 20"
+              xmlns="http://www.w3.org/2000/svg"
+              aria-hidden="true"
+            >
+              <path d="M10 8a3 3 0 100-6 3 3 0 000 6zM3.465 14.493a1.23 1.23 0 00.41 1.412A9.957 9.957 0 0010 18c2.31 0 4.438-.784 6.131-2.1.43-.333.604-.903.408-1.41a7.002 7.002 0 00-13.074.003z" />
+            </svg>
+          )}
+
+          <Username>{username}</Username>
+        </Row>
         {isEditing ? (
           <EditTweetForm
             tweet={tweet}
