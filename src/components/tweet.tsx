@@ -10,8 +10,8 @@ const Wrapper = styled.div`
   display: grid;
   grid-template-columns: 3fr 1fr;
   padding: 20px;
-  border: 1px solid rgb(255 255 255 / 0.5);
   border-radius: 15px;
+  border: 1px solid grey;
 `;
 
 const Column = styled.div`
