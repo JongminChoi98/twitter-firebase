@@ -19,8 +19,9 @@ const TextArea = styled.textarea`
   padding: 20px;
   border-radius: 20px;
   font-size: 16px;
-  color: white;
-  background-color: black;
+  color: black;
+  background-color: white;
+  border: 1px solid black;
   width: 100%;
   resize: none;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,

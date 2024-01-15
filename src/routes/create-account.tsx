@@ -19,6 +19,7 @@ export default function CreateAccount() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
 
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -31,6 +32,8 @@ export default function CreateAccount() {
       setEmail(value);
     } else if (name === "password") {
       setPassword(value);
+    } else if (name === "confirmPassword") {
+      setConfirmPassword(value);
     }
   };
 
@@ -38,6 +41,11 @@ export default function CreateAccount() {
     event.preventDefault();
     setError("");
     if (isLoading || name === "" || email === "" || password === "") return;
+
+    if (password !== confirmPassword) {
+      setError("Passwords do not match");
+      return;
+    }
 
     try {
       setLoading(true);
@@ -61,7 +69,7 @@ export default function CreateAccount() {
 
   return (
     <Wrapper>
-      <Title>Join X</Title>
+      <Title>Join 𝕏</Title>
       <Form onSubmit={onSubmit}>
         <Input
           onChange={onChange}
@@ -84,6 +92,14 @@ export default function CreateAccount() {
           name="password"
           value={password}
           placeholder="Password"
+          type="password"
+          required
+        />
+        <Input
+          onChange={onChange}
+          name="confirmPassword"
+          value={confirmPassword}
+          placeholder="Confirm Password"
           type="password"
           required
         />

@@ -55,20 +55,20 @@ const Tweets = styled.div`
 `;
 
 const NameInput = styled.input`
-  background-color: black;
+  background-color: white;
   font-size: 22px;
   text-align: center;
-  color: white;
-  border: 1px solid white;
+  color: black;
+  border: 1px solid grey;
   border-radius: 15px;
 `;
 const ChangeNameBtn = styled.button`
-  background-color: #3b3a3a;
-  color: white;
+  background-color: white;
+  color: black;
+  border: 1px solid grey;
   padding: 10px 5px;
   font-size: 15px;
   border-radius: 10px;
-  border: 0.1px solid white;
   min-width: 110px;
 `;
 

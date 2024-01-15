@@ -35,7 +35,7 @@ export default function ResetPassword() {
   };
   return (
     <Wrapper>
-      <Title>Find Password 𝕏</Title>
+      <Title>Find Password</Title>
       <Form onSubmit={onSubmit}>
         <Input
           onChange={onChange}

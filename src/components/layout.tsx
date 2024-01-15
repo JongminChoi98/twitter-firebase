@@ -28,9 +28,13 @@ const MenuItem = styled.div`
   height: 50px;
   width: 50px;
   border-radius: 50%;
+  border: 1px solid grey;
+  &:hover {
+    background-color: lightgrey;
+  }
   svg {
     width: 30px;
-    fill: white;
+    fill: black;
   }
   &.log-out {
     border-color: tomato;

@@ -25,13 +25,14 @@ const Form = styled.form`
 const TextArea = styled.textarea`
   width: 100%;
   padding: 20px;
-  background-color: black;
-  border: 2px solid white;
+  margin-top: 10px;
+  background-color: white;
+  border: 1px solid grey;
   border-radius: 20px;
   font-size: 16px;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
     Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-  color: white;
+  color: black;
   resize: none;
   &::placeholder {
     font-size: 16px;
