@@ -2,9 +2,9 @@ import styled from "styled-components";
 import { ITweet } from "./timeline";
 import { auth, db, storage } from "../firebase";
 import { deleteDoc, deleteField, doc, updateDoc } from "firebase/firestore";
-import { deleteObject, ref } from "firebase/storage";
+import { deleteObject, getDownloadURL, ref } from "firebase/storage";
 import EditTweetForm from "./edit-tweet-form";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const Wrapper = styled.div`
   display: grid;
@@ -100,9 +100,22 @@ const UserAvatar = styled.img`
   border-radius: 50%;
 `;
 
+const AvatarWrapper = styled.label`
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: #1d9bf0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  svg {
+    width: 25px;
+  }
+`;
+
 export default function Tweet({ userId, username, photo, tweet, id }: ITweet) {
   const user = auth.currentUser;
-  const avatar = user?.photoURL;
+  const [avatar, setAvatar] = useState("");
   const [isEditing, setIsEditing] = useState(false);
   const onDelete = async () => {
     const ok = confirm("Are you sure you want to delete this tweet?");
@@ -129,23 +142,35 @@ export default function Tweet({ userId, username, photo, tweet, id }: ITweet) {
     onEdit();
   };
 
+  const fetchAvator = async () => {
+    const locationRef = ref(storage, `avatars/${userId}`);
+    getDownloadURL(locationRef).then((url: string) => {
+      setAvatar(url);
+    });
+  };
+
+  useEffect(() => {
+    fetchAvator();
+  }, []);
+
   return (
     <Wrapper>
       <Column>
         <Row>
-          {avatar ? (
-            <UserAvatar src={avatar} />
-          ) : (
-            <svg
-              fill="currentColor"
-              viewBox="0 0 20 20"
-              xmlns="http://www.w3.org/2000/svg"
-              aria-hidden="true"
-            >
-              <path d="M10 8a3 3 0 100-6 3 3 0 000 6zM3.465 14.493a1.23 1.23 0 00.41 1.412A9.957 9.957 0 0010 18c2.31 0 4.438-.784 6.131-2.1.43-.333.604-.903.408-1.41a7.002 7.002 0 00-13.074.003z" />
-            </svg>
-          )}
-
+          <AvatarWrapper>
+            {avatar ? (
+              <UserAvatar src={avatar} />
+            ) : (
+              <svg
+                fill="currentColor"
+                viewBox="0 0 20 20"
+                xmlns="http://www.w3.org/2000/svg"
+                aria-hidden="true"
+              >
+                <path d="M10 8a3 3 0 100-6 3 3 0 000 6zM3.465 14.493a1.23 1.23 0 00.41 1.412A9.957 9.957 0 0010 18c2.31 0 4.438-.784 6.131-2.1.43-.333.604-.903.408-1.41a7.002 7.002 0 00-13.074.003z" />
+              </svg>
+            )}
+          </AvatarWrapper>
           <Username>{username}</Username>
         </Row>
         {isEditing ? (
