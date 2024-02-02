@@ -144,9 +144,12 @@ export default function Tweet({ userId, username, photo, tweet, id }: ITweet) {
 
   const fetchAvator = async () => {
     const locationRef = ref(storage, `avatars/${userId}`);
-    getDownloadURL(locationRef).then((url: string) => {
+    try {
+      const url = await getDownloadURL(locationRef);
       setAvatar(url);
-    });
+    } catch (error) {
+      console.error("Error fetching avatar: ", error);
+    }
   };
 
   useEffect(() => {

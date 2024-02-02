@@ -1,7 +1,8 @@
 import { GithubAuthProvider, signInWithPopup } from "firebase/auth";
 import { styled } from "styled-components";
-import { auth } from "../firebase";
+import { auth, storage } from "../firebase";
 import { useNavigate } from "react-router-dom";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 
 const Button = styled.span`
   margin-top: 50px;
@@ -25,6 +26,18 @@ const Logo = styled.img`
 
 export default function GithubButton() {
   const navigate = useNavigate();
+
+  const uploadImage = async (url: any, storageRef: any) => {
+    try {
+      const response = await fetch(url);
+      const blob = await response.blob();
+      await uploadBytes(storageRef, blob);
+      return await getDownloadURL(storageRef);
+    } catch (error) {
+      console.error("Error uploading image: ", error);
+    }
+  };
+
   const onClick = async () => {
     try {
       const provider = new GithubAuthProvider();
@@ -32,6 +45,13 @@ export default function GithubButton() {
       navigate("/");
     } catch (error) {
       console.error(error);
+    } finally {
+      const user = auth.currentUser;
+      if (user) {
+        const imageUrl = user.photoURL;
+        const locationRef = ref(storage, `avatars/${user.uid}`);
+        await uploadImage(imageUrl, locationRef);
+      }
     }
   };
   return (
